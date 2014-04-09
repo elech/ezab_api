@@ -15,6 +15,6 @@ db.once('open', function(){
 
 require('./routes.js')(app);
 
-app.listen(3000);
+var server = app.listen(3000);
 
-module.exports = app;
+module.exports = server;

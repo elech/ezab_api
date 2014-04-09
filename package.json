@@ -10,11 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "express": "^3.5.1",
-    "mongoose": "^3.8.8"
+    "mongoose": "^3.8.8",
+    "jsonwebtoken": "^0.2.0",
+    "express-jwt": "^0.2.0",
+    "bcrypt": "^0.7.7"
   },
   "devDependencies": {
     "supertest": "^0.10.0",
     "mocha": "^1.18.2",
-    "should": "^3.3.0"
+    "should": "^3.3.0",
+    "gulp-mocha": "^0.4.1"
   }
 }

@@ -3,19 +3,9 @@ var request = require('supertest');
 var should = require('should');
 
 describe('Tokens route', function(){
-	it('should have a root success response', function(done){
-		request(app)
-			.get('/')
-			.expect(200)
-			.end(function(err, res){
-				if(err) throw err;
-				done();
-			})
-	});
-
-
+	
 	describe('Creating tokens', function(){	
-		it('should send a 200 response with valid credentials', function(done){
+		it('should send a 201 response with valid credentials', function(done){
 			request(app)
 				.post('/tokens')
 				.expect(201)
@@ -24,15 +14,9 @@ describe('Tokens route', function(){
 					done();
 				});
 		});
-	})
-
-	it('should ', function(done){
-		request(app)
-			.get('/')
-			.expect(200)
-			.end(function(err, res){
-				if(err) throw err;
-				done();
-			})
 	});
-})
+
+	after(function(){
+		app.close();
+	});
+});
