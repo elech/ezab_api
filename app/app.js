@@ -1,20 +1,22 @@
 var express = require('express'),
 	app = express(),
-	mongoose = require('mongoose');
-
-
-app.configure('dev', function(){
-	mongoose.connect('mongodb://localhost:27017/test');
-});
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, "Connection error: "));
-db.once('open', function(){
-  //console.log('opened');
-})
-
+	Bookshelf = require('bookshelf')
+	
 require('./routes.js')(app);
 
-var server = app.listen(3000);
+Bookshelf.DB = Bookshelf.initialize({
+	client: 'mysql',
+	connection: {
+		host: 'localhost',
+		port: '3306',
+		user: 'root',
+		password: 'toor',
+		database: 'ezab'
+	}
+});
+
+var server = app.listen(3000, function(){
+	console.log('listening');
+});
 
 module.exports = server;

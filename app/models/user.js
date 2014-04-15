@@ -1,7 +1,9 @@
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema,
-	bcrypt = require('bcrypt'),
-	SALT_WORK_FACTOR = 10;
+var Bookshelf = require('bookshelf').DB;
+
+
+exports.model = Bookshelf.Model.extend({
+	tableName: 'users',
+})
 
 
 var userSchema = new Schema({
