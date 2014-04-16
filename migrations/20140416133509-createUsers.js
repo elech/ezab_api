@@ -14,12 +14,17 @@ module.exports = {
 		    updatedAt: {
 		      type: DataTypes.DATE
 		    },
-		    attr1: DataTypes.STRING,
-		    attr2: DataTypes.INTEGER,
-		    attr3: {
-		      type: DataTypes.BOOLEAN,
-		      defaultValue: false,
-		      allowNull: false
+		    name: {
+		    	type: DataTypes.STRING,
+		    	notNull: true
+		    },
+		    email: {
+		    	type: DataTypes.STRING,
+		    	notNull: true
+		    },
+		    password: {
+		    	type: DataTypes.STRING,
+		    	notNull: true
 		    }
 		  }
 		)
