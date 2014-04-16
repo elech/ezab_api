@@ -1,8 +1,12 @@
 var Sequelize = require('sequelize');
+
+console.log(process.env.NODE_ENV);
 var sequelize = new Sequelize(
 		'ezab',
 		'root',
-		'toor'
+		'toor', {
+			logging: (process.env.NODE_ENV == 'development' ? true : false )
+		}
 	);
 
 var models = [
@@ -20,13 +24,4 @@ models.forEach(function(model){
 	m.WebProperty.belongsTo(m.User);
 })(module.exports);
 
-sequelize
-	.sync({force: true})
-	.complete(function(err){
-		if(err){
-			console.log('err in sequelize')
-		}else{
-			module.exports.sequelize = sequelize;
-		}
-	})
-
+module.exports.sequelize = sequelize;

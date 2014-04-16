@@ -10,7 +10,12 @@ module.exports = function(sequelize, DataTypes){
 			allowNull: false,
 			validate: {
 				isEmail: true
-			}
+			},
+			unique: true
+		},
+		password: {
+			type: DataTypes.STRING,
+			allowNull: false
 		}
 	}, {
 		tableName: 'users'

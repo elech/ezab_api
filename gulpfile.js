@@ -18,10 +18,11 @@ gulp.task('default', function(){
 })
 
 gulp.task('test', function(){
+  
+  process.env.NODE_ENV = 'test';
   gulp.src(testFiles)
     .pipe(mocha({reporter: 'spec'}))
     .on('error', function(err){
-      console.log(err);
       this.emit('end');
     })
 })

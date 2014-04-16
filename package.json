@@ -14,7 +14,8 @@
     "express-jwt": "^0.2.0",
     "bcrypt": "^0.7.7",
     "mysql": "^2.1.1",
-    "sequelize": "^1.7.1"
+    "sequelize": "^1.7.1",
+    "body-parser": "^1.0.2"
   },
   "devDependencies": {
     "supertest": "^0.10.0",
