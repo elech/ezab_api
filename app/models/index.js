@@ -7,7 +7,8 @@ var sequelize = new Sequelize(
 
 var models = [
 	'User',
-	'WebProperty'
+	'WebProperty',
+	'Campaign'
 ];
 
 models.forEach(function(model){
