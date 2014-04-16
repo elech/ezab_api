@@ -21,7 +21,7 @@ gulp.task('test', function(){
   gulp.src(testFiles)
     .pipe(mocha({reporter: 'spec'}))
     .on('error', function(err){
-      console.log(err.toString());
+      console.log(err);
       this.emit('end');
     })
 })

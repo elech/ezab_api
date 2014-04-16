@@ -1,4 +1,4 @@
-var app = require('../app/app.js');
+/*var app = require('../app/app.js');
 var request = require('supertest');
 var should = require('should');
 
@@ -19,4 +19,4 @@ describe('Tokens route', function(){
 	after(function(){
 		app.close();
 	});
-});
+});*/
