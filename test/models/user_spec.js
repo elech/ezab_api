@@ -18,7 +18,7 @@ describe('User model', function(){
 		it('should validate email', function(){
 			user = User.build({name: 'James', email: 'james@gmail.com'})
 			expect(user.validate()).to.not.exist;
-			user.setDataValue('email', 'aol@aolcom');
+			user.email = 'aol@aolcom';
 			expect(user.validate()).to.exist;
 		});
 
