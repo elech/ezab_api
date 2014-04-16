@@ -20,4 +20,13 @@ models.forEach(function(model){
 	m.WebProperty.belongsTo(m.User);
 })(module.exports);
 
-module.exports.sequelize = sequelize;
+sequelize
+	.sync({force: true})
+	.complete(function(err){
+		if(err){
+			console.log('err in sequelize')
+		}else{
+			module.exports.sequelize = sequelize;
+		}
+	})
+
