@@ -47,9 +47,51 @@ describe('Users route', function(){
 				})
 		})
 
-		it('should get a list of users', function(){
+		it('should get a list of users', function(done){
+			request(app)
+				.get('/users')
+				.expect(200)
+				.end(function(err){
+					if(err) return done(err);
+					done();
+				})
 		})
+	})
 
+	describe('Editing users', function(){
+		it('should update a user by id', function(done){
+			var newName = 'newName';
+			request(app)
+				.put('/users/' + users[0].get('id'))
+				.send({name: newName})
+				.expect(200)
+				.end(function(err, res){
+					if(err) return done(err);
+					expect(res.body.name).to.equal(newName)
+					done();
+				})
+		})
+	})
+
+	describe('Delete users', function(){
+		it('should delete a users by id', function(done){
+			var deleteId = users[0].get('id');
+			request(app)
+				.del('/users/' + deleteId)
+				.expect(200)
+				.end(function(err, res){
+					if(err) return done(err);
+					console.log(res.body)
+					expect(res.body.id).to.equal(deleteId)
+					request(app)
+						.get('/users/' + deleteId)
+						.expect(404)
+						.end(function(err, res){
+							if(err) return done(err);
+							done();
+						})
+				})
+		})
 	})
 
 	after(function(){
