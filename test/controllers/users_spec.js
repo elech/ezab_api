@@ -19,7 +19,7 @@ describe('Users route', function(){
 
 
 		describe('valid data', function(){
-			var user = {name: 'Leo C', email: 'leo@gmail.com', password: 'lolwatispw'};
+			var user = {name: 'Leo C', email: 'leo@gmail.com', password: 'lolwatispw', confirm: 'lolwatispw'};
 
 			it('should send a 201', function(done){
 				request(app)
@@ -81,7 +81,6 @@ describe('Users route', function(){
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
-					console.log(res.body)
 					expect(res.body.id).to.equal(deleteId)
 					request(app)
 						.get('/users/' + deleteId)

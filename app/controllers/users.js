@@ -24,20 +24,16 @@ module.exports = function(app){
 	}
 
 	function _create(req, res){
-		User.create({
+		User.salt({
 			name: req.body.name,
 			email: req.body.email,
-			password: req.body.password
+			password: req.body.password,
+			confirm: req.body.confirm
+		}).then(function(user){
+			return res.send(201, user);
+		}, function(err){
+			return res.send(500, err);
 		})
-		.success(function(user){
-			var dto = user.toJSON();
-			dto.password = void 0;
-			return res.send(201, dto);
-		})
-		.error(function(err){
-			console.log(err);
-			return res.send(400, err);
-		})	
 	}
 
 	function _edit(req, res){

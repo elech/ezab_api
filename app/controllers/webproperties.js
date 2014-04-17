@@ -3,7 +3,5 @@ module.exports = function(app){
 	function _get(req, res){
 		
 	}
-	return {
 
-	}
 }
