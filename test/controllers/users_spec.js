@@ -3,29 +3,23 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var models = require('../../app/models');
 var User = models.User;
+var seed = require('../../config/seed.js');
 
 describe('Users route', function(){
-	var user = {name: 'Eric L', email: 'eric@gmail.com', password: 'abc123'};
-	var user2 = {name: 'James P', email: 'james@gmail.com', password: 'securepassword'};
-	
-	function syncDB(done){
-				models.sequelize
-					.sync({force: true})
-					.complete(function(err){
-						if(!!err){
-							console.log('err')
-						}else{
-							done();
-						}
-					})
-			}
-
+	var users;	
+	beforeEach(function(done){
+		seed().then(function(seed){
+			users = seed.users;
+			done();
+		}, function(err){
+			done(err);
+		})
+	})
 	describe('Creating users', function(){	
 
 
 		describe('valid data', function(){
-			
-			beforeEach(syncDB);
+			var user = {name: 'Leo C', email: 'leo@gmail.com', password: 'lolwatispw'};
 
 			it('should send a 201', function(done){
 				request(app)
@@ -42,34 +36,20 @@ describe('Users route', function(){
 	});
 
 	describe('Getting users', function(){
-		var knownUser;
-		before(syncDB);
-		before(function(done){
-			User.bulkCreate([
-					user, user2
-				]).success(function(){
-					User.findAll()
-						.success(function(users){
-							knownUser = users[0];
-							done();
-						})
-				}).error(function(err){
-					return done(err)
-				})
-		})
 
 		it('should get a user by id', function(done){
 			request(app)
-				.get('/users/' + knownUser.id)
+				.get('/users/' + users[0].get('id'))
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
-					console.log(res);
 					done()
 				})
 		})
 
-		afterEach(syncDB)
+		it('should get a list of users', function(){
+		})
+
 	})
 
 	after(function(){
