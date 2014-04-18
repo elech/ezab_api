@@ -10,7 +10,7 @@ var User = models.User,
 describe('Web Properties route', function(){
 	var users, token, props;
 	var userDeets = {name: 'Quiin', email: 'quin@gmail.com', password: 'password', confirm: 'password'};
-	var goodProp = {name: ''}
+	var goodProp = {name: 'BRS', url: 'http://www.amazon.com'}
 	before(function(done){
 		seed().then(function(seed){
 			users = seed.users;
@@ -71,7 +71,6 @@ describe('Web Properties route', function(){
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
-					console.log(res.body)
 					expect(res.body.id).to.equal(props[0].get('id'));
 					done();
 				})
@@ -79,10 +78,16 @@ describe('Web Properties route', function(){
 	})
 
 	describe('Creating', function(){
-		it('should send a 201', function(){
+		it('should send a 201', function(done){
 			request(app)
 				.post('/webproperties')
-				.send()
+				.set('Bearer', token)
+				.send(goodProp)
+				.expect(201)
+				.end(function(err, res){
+					if(err) return done(err);
+					done();
+				})
 		})
 	})
 

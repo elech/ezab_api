@@ -32,6 +32,7 @@ module.exports = function(app){
 	//webprops
 	app.get('/webproperties', auth, webprops.list);
 	app.get('/webproperties/:id', auth, webprops.get);
+	app.post('/webproperties', auth, webprops.create);
 
 	app.get('/', function(req, res){
 		res.send(200);

@@ -21,7 +21,8 @@ module.exports = function(app){
 	function _create(req, res){
 		WebProperty.create({
 			name: req.body.name,
-			url: req.body.url
+			url: req.body.url,
+			userId: req.user.get('id')
 		}).then(function(prop){
 			return res.send(201, prop);
 		}, function(err){
@@ -33,7 +34,8 @@ module.exports = function(app){
 
 	return {
 		list: _list,
-		get: _get
+		get: _get,
+		create: _create
 	}
 
 }
