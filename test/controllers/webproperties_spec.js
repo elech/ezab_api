@@ -8,34 +8,19 @@ var User = models.User,
 	WebProp = models.WebProperty;
 
 describe('Web Properties route', function(){
-	var users, token, props;
+	var users, token, wuser;
 	var userDeets = {name: 'Quiin', email: 'quin@gmail.com', password: 'password', confirm: 'password'};
 	var goodProp = {name: 'BRS', url: 'http://www.amazon.com'}
 	before(function(done){
 		seed().then(function(seed){
 			users = seed.users;
-			
-			addUser().then(function(propsz){
-				props = propsz;
+			User.find({where:{email: 'quin@gmail.com'}, include: [WebProp]}).then(function(wuserw){
+				wuser = wuserw;
 				done();
-			}, done)
+			}, done)				
 		}, done)
 	})
 
-	function addUser(){		
-		var promise = when.promise(function(resolve, reject, notify){
-			User.salt(userDeets).then(function(user){
-					
-					var propData = {name: 'Careers', url: 'http://www.google.com', userId: user.get('id')};
-					WebProp.create(propData).then(function(){
-						user.getWebproperties().then(function(props){
-							resolve(props)
-						}, reject)
-					}, reject);
-			}, reject)
-		});
-		return promise;
-	}
 
 	before(function(done){
 		request(app)
@@ -66,12 +51,12 @@ describe('Web Properties route', function(){
 
 		it('should get a single property', function(done){
 			request(app)
-				.get('/webproperties/' + props[0].get('id'))
+				.get('/webproperties/' + wuser.webproperties[0].get('id'))
 				.set('Bearer', token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
-					expect(res.body.id).to.equal(props[0].get('id'));
+					expect(res.body.id).to.equal(wuser.webproperties[0].get('id'));
 					done();
 				})
 		})

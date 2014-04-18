@@ -19,7 +19,6 @@ describe('Tokens route', function(){
 	describe('Creating tokens', function(){	
 		var userDeets = {name: 'Eric D', password: 'password', confirm: 'password', email: 'ed@gmail.com'}
 		it('should respond with a 201 & token', function(done){
-			this.timeout(10000)
 			User.salt(userDeets).then(function(user){
 				request(app)
 					.post('/tokens')
