@@ -37,6 +37,15 @@ describe('User model', function(){
 	describe('Password hashing', function(){
 		var userDeets = {name: 'Eric C', email: 'ee@gmail.com', password: 'password', confirm: 'password'};
 
+		beforeEach(function(done){
+			seed().then(function(seed){
+				users = seed.users;
+				done();
+			}, function(err){
+				done(err);
+			})
+		})
+
 		it('should take a password and hash it', function(done){
 			User.salt(userDeets)
 			.then(function(user){

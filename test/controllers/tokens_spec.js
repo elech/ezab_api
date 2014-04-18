@@ -27,7 +27,6 @@ describe('Tokens route', function(){
 					.expect(201)
 					.end(function(err, res){
 						if(err) return done(err);
-						console.log(res.body);
 						done();
 					})
 			}, done)
@@ -35,6 +34,6 @@ describe('Tokens route', function(){
 	});
 
 	after(function(){
-		app.close();
+		//app.close();
 	});
 });

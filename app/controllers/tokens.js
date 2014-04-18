@@ -10,8 +10,7 @@ module.exports = function(app){
 			user.comparePassword(req.body.password).then(function(match){
 				if(!match) return res.send(401);
 				var profile = {
-					name: user.get('name'),
-					email: user.get('email')
+					id: user.get('id')
 				}, token = jwt.sign(profile, 'secret', { expiresInMinutes: 60*5 });
 				
 				return res.send(201, {token: token});

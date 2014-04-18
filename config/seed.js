@@ -12,7 +12,7 @@ var promise = when.promise(function(resolve, reject, notify) {
     // along the way if you want/need.
 		var seed = {};
 		models.sequelize.sync({force: true}).complete(function(err){
-			if(err) throw err;
+			if(err) return reject(err);
 			when.all(User.salt(user1), User.salt(user2), User.salt(user3)).then(function(){
 				User.findAll()
 					.success(function(users){

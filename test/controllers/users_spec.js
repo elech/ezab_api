@@ -94,6 +94,6 @@ describe('Users route', function(){
 	})
 
 	after(function(){
-		app.close();
+		//app.close();
 	});
 });
