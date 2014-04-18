@@ -51,11 +51,12 @@ describe('Campaigns route', function(){
 	describe('Getting', function(){	
 		it('should return a 200 array @ /campaigns', function(done){
 			request(app)
-				.get('/webproperties/' + cuser.webproperties[0].get('id'))
+				.get('/webproperties/' + cuser.webproperties[0].get('id') + "/campaigns")
 				.set('Bearer', token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
+					expect(res.body).to.be.instanceOf(Array);
 					done();
 				})
 		})

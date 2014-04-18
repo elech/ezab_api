@@ -31,7 +31,7 @@ var promise = when.promise(function(resolve, reject, notify) {
 		var seed = {};
 		models.sequelize.sync({force: true}).complete(function(err){
 			if(err) return reject(err);
-			when.all(User.salt(user1), User.salt(user2), User.salt(user3), userWebProp()).then(function(){
+			when.all(User.salt(user1), User.salt(user2), User.salt(user3), userWebProp()).then(function(res){
 				User.findAll()
 					.success(function(users){
 						seed.users = users;
