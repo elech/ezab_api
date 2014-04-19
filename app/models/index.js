@@ -22,6 +22,8 @@ models.forEach(function(model){
 (function(m){
 	m.User.hasMany(m.WebProperty);
 	m.WebProperty.belongsTo(m.User);
+	m.WebProperty.hasMany(m.Campaign);
+	m.Campaign.belongsTo(m.WebProperty);
 })(module.exports);
 
 module.exports.sequelize = sequelize;

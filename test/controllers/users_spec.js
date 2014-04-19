@@ -3,17 +3,14 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var models = require('../../app/models');
 var User = models.User;
-var seed = require('../../config/seed.js');
 
 describe('Users route', function(){
-	var users;	
-	beforeEach(function(done){
-		seed().then(function(seed){
-			users = seed.users;
+	var users, createdUserId;
+	before(function(done){
+		User.findAll().then(function(cusers){
+			users = cusers;
 			done();
-		}, function(err){
-			done(err);
-		})
+		}, done)
 	})
 	describe('Creating users', function(){	
 
@@ -28,6 +25,7 @@ describe('Users route', function(){
 					.expect(201)
 					.end(function(err, res){
 						if(err) return done(err);
+						createdUserId = res.body.id;
 						done();
 					});
 			});
@@ -75,15 +73,14 @@ describe('Users route', function(){
 
 	describe('Delete users', function(){
 		it('should delete a users by id', function(done){
-			var deleteId = users[0].get('id');
 			request(app)
-				.del('/users/' + deleteId)
+				.del('/users/' + createdUserId)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
-					expect(res.body.id).to.equal(deleteId)
+					expect(res.body.id).to.equal(createdUserId)
 					request(app)
-						.get('/users/' + deleteId)
+						.get('/users/' + createdUserId)
 						.expect(404)
 						.end(function(err, res){
 							if(err) return done(err);
@@ -92,8 +89,4 @@ describe('Users route', function(){
 				})
 		})
 	})
-
-	after(function(){
-		//app.close();
-	});
 });

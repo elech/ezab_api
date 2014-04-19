@@ -22,33 +22,9 @@ function userWebProp(){
 	return promise;
 }
 
-
-
-var promise = when.promise(function(resolve, reject, notify) {
-    // Do some work, possibly asynchronously, and then
-    // resolve or reject.  You can notify of progress events
-    // along the way if you want/need.
-		var seed = {};
-		models.sequelize.sync({force: true}).complete(function(err){
-			if(err) return reject(err);
-			when.all(User.salt(user1), User.salt(user2), User.salt(user3), userWebProp()).then(function(res){
-				User.findAll()
-					.success(function(users){
-						seed.users = users;
-						resolve(seed);
-					}, reject)				
-			}, reject)
-		})
-
-    // or resolve(anotherPromise);
-    // or reject(nastyError);
-});
-
-
-module.exports = function(){
-	return promise;
+function syncTheDB(){
+	return models.sequelize.sync({force: true}).then(function(){
+		return when.all(User.salt(user1), User.salt(user2), User.salt(user3), userWebProp())
+	});
 }
-
-
-
-
+exports.syncTheDB = syncTheDB;

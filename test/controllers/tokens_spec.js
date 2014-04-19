@@ -6,15 +6,6 @@ var User = models.User;
 var seed = require('../../config/seed.js');
 
 describe('Tokens route', function(){
-	var users;	
-	beforeEach(function(done){
-		seed().then(function(seed){
-			users = seed.users;
-			done();
-		}, function(err){
-			done(err);
-		})
-	})
 
 	describe('Creating tokens', function(){	
 		var userDeets = {name: 'Eric D', password: 'password', confirm: 'password', email: 'ed@gmail.com'}
@@ -30,9 +21,5 @@ describe('Tokens route', function(){
 					})
 			}, done)
 		})
-	});
-
-	after(function(){
-		//app.close();
 	});
 });

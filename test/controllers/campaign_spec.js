@@ -9,32 +9,22 @@ var seed = require('../../config/seed.js');
 var when = require('when');
 
 describe('Campaigns route', function(){
-	var users, cuser;
+	var cuser, token;
 	before(function(done){
-		seed().then(function(seedz){
-			users = seedz.users;
-			getUserWithCampaign().then(function(user){
+		//get the user with a web property
+		User.find({where: {email: 'quin@gmail.com'}, include: [WebProperty]})
+			.then(function(user){
 				cuser = user;
-				
-				getToken().then(function(tokenz){
-					token = tokenz
-					done();	
-				}, done)
-			}, done)
-		}, done)
+				getToken().then(function(ctoken){
+					token = ctoken;
+					done();
+				},done);
+			}, function(err){
+				done(err);
+			})
 	})
 
-	function getUserWithCampaign(){
-		var promise = when.promise(function(resolve, reject, notify){
-			User.find({where: {email: 'quin@gmail.com'}, include: [WebProperty]}).then(function(user){
-				if(!user) return reject('No users');
-				resolve(user);
-			}, reject);
-		})
-		return promise;
-	}
-
-	function getToken(){
+	function getToken(user){
 		var promise = when.promise(function(resolve, reject, notify){
 			request(app)
 				.post('/tokens')

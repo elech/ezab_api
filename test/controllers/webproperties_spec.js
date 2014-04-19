@@ -8,24 +8,19 @@ var User = models.User,
 	WebProp = models.WebProperty;
 
 describe('Web Properties route', function(){
-	var users, token, wuser;
-	var userDeets = {name: 'Quiin', email: 'quin@gmail.com', password: 'password', confirm: 'password'};
-	var goodProp = {name: 'BRS', url: 'http://www.amazon.com'}
+	var wuser;
+
 	before(function(done){
-		seed().then(function(seed){
-			users = seed.users;
-			User.find({where:{email: 'quin@gmail.com'}, include: [WebProp]}).then(function(wuserw){
-				wuser = wuserw;
-				done();
-			}, done)				
+		User.find({where:{email: 'quin@gmail.com'}, include: [WebProp]}).then(function(user){
+			wuser = user;
+			done()
 		}, done)
 	})
-
 
 	before(function(done){
 		request(app)
 			.post('/tokens')
-			.send({email: userDeets.email, password: userDeets.password})
+			.send({email: 'quin@gmail.com', password: 'password'})
 			.expect(201)
 			.end(function(err, res){
 				if(err) return done(err);
@@ -63,7 +58,7 @@ describe('Web Properties route', function(){
 	})
 
 	describe('Creating', function(){
-		it('should send a 201', function(done){
+/*		it('should send a 201', function(done){
 			request(app)
 				.post('/webproperties')
 				.set('Bearer', token)
@@ -73,7 +68,7 @@ describe('Web Properties route', function(){
 					if(err) return done(err);
 					done();
 				})
-		})
+		})*/
 	})
 
 });
