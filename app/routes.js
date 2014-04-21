@@ -38,6 +38,7 @@ module.exports = function(app){
 	app.get('/webproperties/:propid/campaigns', auth, campaigns.list);
 
 	app.get('/webproperties/:propid/campaigns/:cid/experiences', auth, experiences.list);
+	app.get('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.get);
 
 	app.get('/', function(req, res){
 		res.send(200);

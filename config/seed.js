@@ -2,6 +2,7 @@ var models = require('../app/models'),
 	User = models.User,
 	WebProperty = models.WebProperty,
 	Campaign = models.Campaign,
+	Experience = models.Experience,
 	when = require('when');
 
 var user1 = {name: 'Eric L', email: 'eric@gmail.com', password: 'password', confirm: 'password'}
@@ -25,7 +26,10 @@ function experienceUser(){
 	}).then(function(savedExpProp){
 		return Campaign.create({name: campaign.name, start: campaign.start, success: campaign.success, webpropertyId: savedExpProp.id})
 	}).then(function(savedCampaign){
-		return Experience.create({name: experience.name, code: experience.code, campaignId: savedCampaign.id});
+		return Experience.create({name: experience.name, code: experience.code, campaignId: savedCampaign.id}).error(function(err){
+			console.log('****');
+			console.log(err)
+		})
 	})
 }
 

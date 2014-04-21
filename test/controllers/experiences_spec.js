@@ -6,13 +6,14 @@ var seed = require('../../config/seed.js');
 var when = require('when');
 var User = models.User,
 	WebProp = models.WebProperty,
-	Campaign = models.Campaign
+	Campaign = models.Campaign,
+	Experience = models.Experience;
 
 describe('Experiences route', function(){
 	var user, webprop, token, campaign
 
 	before(function(done){
-		User.find({where:{email: 'exp@gmail.com'}, include: [{model: WebProp, include: [Campaign]}]}).then(function(expuser){
+		User.find({where:{email: 'exp@gmail.com'}, include: [{model: WebProp, include: [{model: Campaign, include: [Experience]}]}]}).then(function(expuser){
 			user = expuser;
 			webprop = expuser.webproperties[0];
 			campaign = expuser.webproperties[0].campaigns[0];
@@ -49,12 +50,12 @@ describe('Experiences route', function(){
 
 		it('should get a single of experiences', function(done){
 			request(app)
-				.get('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences/' + "wat")
+				.get('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences/' + campaign.experiences[0].id)
 				.set('Bearer', token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
-					expect(res.body).to.be.instanceOf(Array);
+					expect(res.body.code).to.exist;
 					done();
 				})
 		})
