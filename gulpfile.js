@@ -2,7 +2,9 @@ var gulp = require('gulp');
 var gulputil = require('gulp-util');
 var mocha = require('gulp-mocha');
 var seed = require('./config/seed.js');
-var batch = require('gulp-batch')
+var batch = require('gulp-batch');
+var when = require('when');
+var app =require('./app/app.js');
 
 var appFiles = [
   'app/**/*.js',
@@ -14,17 +16,29 @@ var testFiles = [
   'test/**/*.js'
 ]
 
-gulp.task('default', function(){
-  gulp.watch(appFiles.concat(testFiles), batch({timeout: 10}, function(events){
 
-  })).on('change', function(events){
-      seed.syncTheDB().then(function(){
-        gulp.src(appFiles.concat(testFiles)).pipe(mocha({reporter: 'spec'}))
-          .on('error', function(err){
-            console.log('err');
-            console.log(err.toString())
-            this.emit('end');
-          })
-      })
+gulp.task('seed', function(){
+  console.log('seed');
+  var promise = when.promise(function(resolve, reject, notify){
+    seed.syncTheDB().then(function(){
+      //professional
+      setTimeout(function(){
+        resolve(); //let db settle
+      }, 500);
+    }, reject);
   })
+  return promise;
+})
+
+gulp.task('test', ['seed'], function(){
+  return gulp.src(appFiles.concat(testFiles))
+    .pipe(mocha({reporter: 'spec'}))
+    .on('error', function(err){
+      console.log(err.toString());
+      this.emit('end');
+    })
+})
+
+gulp.task('default', function(){
+  gulp.watch(appFiles.concat(testFiles), ['test']);
 });
