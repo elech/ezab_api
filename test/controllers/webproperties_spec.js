@@ -40,7 +40,7 @@ describe('Web Properties route', function(){
 				.end(function(err, res){
 					if(err) return done(err);
 					expect(res.body).to.be.instanceOf(Array);
-					//expect(res.body).to.have.length(1);
+					expect(res.body).to.have.length(1);
 					done();
 				})
 		})
