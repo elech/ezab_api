@@ -45,6 +45,7 @@ describe('Campaigns route', function(){
 				.set('Bearer', token)
 				.expect(200)
 				.end(function(err, res){
+					console.log(err);
 					if(err) return done(err);
 					expect(res.body).to.be.instanceOf(Array);
 					done();

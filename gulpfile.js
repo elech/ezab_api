@@ -4,7 +4,6 @@ var mocha = require('gulp-mocha');
 var seed = require('./config/seed.js');
 var batch = require('gulp-batch');
 var when = require('when');
-var app =require('./app/app.js');
 
 var appFiles = [
   'app/**/*.js',
@@ -15,6 +14,8 @@ var testFiles = [
   'test/*.js',
   'test/**/*.js'
 ]
+
+
 
 
 gulp.task('seed', function(){

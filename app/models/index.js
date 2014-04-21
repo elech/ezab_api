@@ -12,7 +12,8 @@ var sequelize = new Sequelize(
 var models = [
 	'User',
 	'WebProperty',
-	'Campaign'
+	'Campaign',
+	'Experience'
 ];
 
 models.forEach(function(model){
@@ -24,6 +25,8 @@ models.forEach(function(model){
 	m.WebProperty.belongsTo(m.User);
 	m.WebProperty.hasMany(m.Campaign);
 	m.Campaign.belongsTo(m.WebProperty);
+	m.Campaign.hasMany(m.Experience);
+	m.Experience.belongsTo(m.Campaign);
 })(module.exports);
 
 module.exports.sequelize = sequelize;
