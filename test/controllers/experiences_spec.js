@@ -13,12 +13,17 @@ describe('Experiences route', function(){
 	var user, webprop, token, campaign
 
 	before(function(done){
-		User.find({where:{email: 'exp@gmail.com'}, include: [{model: WebProp, include: [{model: Campaign, include: [Experience]}]}]}).then(function(expuser){
-			user = expuser;
-			webprop = expuser.webproperties[0];
-			campaign = expuser.webproperties[0].campaigns[0];
-			done()
-		}, done);
+		User.find({where:{email: 'exp@gmail.com'}}).then(function(foundUser){
+			user = foundUser;
+			return WebProperty.find({where:{userId: user.get('id'), url: 'http://aws.amazon.com'}})
+		}).then(function(prop){
+			webprop = prop
+			return Campaign.find({where:{webpropertyId: webprop.get('id'), name: 'HomePage'}, include: [Experience]})
+		}).then(function(camp){
+			campaign = camp;
+			done();
+		})
+
 	})
 
 
@@ -50,7 +55,7 @@ describe('Experiences route', function(){
 
 		it('should get a single of experiences', function(done){
 			request(app)
-				.get('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences/' + campaign.experiences[0].id)
+				.get('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign.id + '/experiences/' + campaign.experiences[0].id)
 				.set('Bearer', token)
 				.expect(200)
 				.end(function(err, res){

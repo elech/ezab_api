@@ -30,6 +30,11 @@ module.exports = function(app){
 		});
 	}
 
+	function _publish(req, res){
+		//WebProperty.publishable()
+		res.send(200);
+	}
+
 	
 
 	return {

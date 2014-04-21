@@ -15,6 +15,7 @@ var goodProp = {name: 'BRS', url: 'http://www.amazon.com'}
 var user5 = {name: 'experienceGuy', email: 'exp@gmail.com', password: 'password', confirm: 'password'};
 var expProp = {name: 'Amazon', url: 'http://aws.amazon.com'};
 var campaign = {name: 'HomePage', start: 'return window.location.pathname === "/"', success: 'return window.location.pathname === "/thankyou"'};
+var campaign2 = {name: 'Other page', start: 'return window.location.pathname === "/wat"', success: 'return window.location.pathname === "/thankyou2"'};
 var experience = {name: 'Page left', code: '$("#main").empty();'};
 
 
@@ -24,12 +25,9 @@ function experienceUser(){
 	.then(function(savedUser5){
 		return WebProperty.create({name: expProp.name, url: expProp.url, userId: savedUser5.id})
 	}).then(function(savedExpProp){
-		return Campaign.create({name: campaign.name, start: campaign.start, success: campaign.success, webpropertyId: savedExpProp.id})
-	}).then(function(savedCampaign){
-		return Experience.create({name: experience.name, code: experience.code, campaignId: savedCampaign.id}).error(function(err){
-			console.log('****');
-			console.log(err)
-		})
+		return when.all([Campaign.create({name: campaign.name, start: campaign.start, success: campaign.success, webpropertyId: savedExpProp.id}), Campaign.create({name: campaign2.name, start: campaign2.start, success: campaign2.success, webpropertyId: savedExpProp.id})])
+	}).then(function(result){
+		return Experience.create({name: experience.name, code: experience.code, campaignId: result[0].id})
 	})
 }
 

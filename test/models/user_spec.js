@@ -1,7 +1,6 @@
 var expect = require('chai').expect;
 var models = require('../../app/models');
 var User = models.User;
-var seed = require('../../config/seed.js');
 describe('User model', function(){
 
 	it('should be defined', function(){
