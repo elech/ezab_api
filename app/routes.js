@@ -35,6 +35,8 @@ module.exports = function(app){
 	app.get('/webproperties', auth, webprops.list);
 	app.get('/webproperties/:id', auth, webprops.get);
 	app.post('/webproperties', auth, webprops.create);
+	app.put('/webproperties/:propid', auth, webprops.edit);
+	app.del('/webproperties/:propid', auth, webprops.del);
 	
 	//campaigns
 	app.get('/webproperties/:propid/campaigns', auth, campaigns.list);

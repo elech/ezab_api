@@ -8,7 +8,7 @@ var User = models.User,
 	WebProp = models.WebProperty;
 
 describe('Web Properties route', function(){
-	var wuser;
+	var wuser, token;
 
 	before(function(done){
 		User.find({where:{email: 'quin@gmail.com'}, include: [WebProp]}).then(function(user){
@@ -65,6 +65,59 @@ describe('Web Properties route', function(){
 				.set('Bearer', token)
 				.send({name: 'MyNewProp', url: 'http://www.valid.com'})
 				.expect(201)
+				.end(function(err, res){
+					if(err) return done(err);
+					done();
+				})
+		})
+	})
+
+	describe('Editing', function(){
+		var prop2edit;
+		before(function(done){
+			WebProperty.create({
+				name: 'newWebPropOverHere',
+				url: 'http://www.domain.com',
+				userId: wuser.id
+			}).then(function(prop){
+				prop2edit = prop
+				done();
+			}, done);
+		})
+
+		it('should edit a web property', function(done){
+			var newName = "newPropNameHERE";
+			request(app)
+				.put('/webproperties/' + prop2edit.id)
+				.set('Bearer', token)
+				.send({name: newName})
+				.expect(200)
+				.end(function(err, res){
+					if(err) return done(err);
+					expect(res.body.name).to.equal(newName);
+					done()
+				})
+		})
+	})
+
+	describe('Deleting', function(){
+		var prop2del;
+		before(function(done){
+			WebProperty.create({
+				name: 'Delte web prop',
+				url: 'http://www.delete.com',
+				userId: wuser.id
+			}).then(function(prop){
+				prop2del = prop;
+				done();
+			}, done)
+		})
+
+		it('should delete a property', function(done){
+			request(app)
+				.del('/webproperties/' + prop2del.id)
+				.set('Bearer', token)
+				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
 					done();
