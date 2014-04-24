@@ -19,7 +19,6 @@ var testFiles = [
 
 
 gulp.task('seed', function(){
-  console.log('seed');
   var promise = when.promise(function(resolve, reject, notify){
     seed.syncTheDB().then(function(){
       //professional

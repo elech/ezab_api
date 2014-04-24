@@ -12,7 +12,7 @@ describe('Campaigns route', function(){
 	var cuser, token;
 	before(function(done){
 		//get the user with a web property
-		User.find({where: {email: 'quin@gmail.com'}, include: [WebProperty]})
+		User.find({where: {email: 'exp@gmail.com'}, include: [WebProperty]})
 			.then(function(user){
 				cuser = user;
 				getToken().then(function(ctoken){
@@ -28,7 +28,7 @@ describe('Campaigns route', function(){
 		var promise = when.promise(function(resolve, reject, notify){
 			request(app)
 				.post('/tokens')
-				.send({email: 'quin@gmail.com', password: 'password'})
+				.send({email: 'exp@gmail.com', password: 'password'})
 				.expect(201)
 				.end(function(err, res){
 					if(err) return reject(err);
