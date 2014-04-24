@@ -45,9 +45,12 @@ module.exports = function(app){
 	app.put('/webproperties/:propid/campaigns/:cid', auth, campaigns.edit);
 	app.del('/webproperties/:propid/campaigns/:cid', auth, campaigns.del)
 
-
+	//experiences
 	app.get('/webproperties/:propid/campaigns/:cid/experiences', auth, experiences.list);
 	app.get('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.get);
+	app.post('/webproperties/:propid/campaigns/:cid/experiences', auth, experiences.create);
+	app.put('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.edit);
+	app.del('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.del);
 
 	app.get('/', function(req, res){
 		res.send(200);

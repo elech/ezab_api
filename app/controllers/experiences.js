@@ -24,27 +24,80 @@ module.exports = function(app){
 	}
 
 	function _get(req, res){
-		var QUERY = 'SELECT e.name, e.code, e.createdAt, e.updatedAt FROM users u ' +
-			'JOIN webproperties as prop ON u.id = prop.userId ' +
-			'JOIN campaigns as c ON prop.id = c.webpropertyId ' +
-			'JOIN experiences as e on c.id = e.campaignId ' +
-			'WHERE prop.id = :propid AND c.id = :cid AND e.id = :eid AND u.id = :uid';
 
-		Sequelize.query(QUERY, Experience, {raw: true},{
-			propid: req.params.propid,
-			cid: req.params.cid,
-			eid: req.params.eid,
-			uid: req.user.get('id')
-		}).then(function(exp){
+		Experience.findExperience({propid: req.params.propid, cid: req.params.cid, eid:req.params.eid, uid: req.user.get('id')}).then(function(exp){
 			if(!exp) return res.send(404);
-			res.send(200, exp[0]);
+			res.send(200, exp);
 		}, function(err){
 			res.send(400, err);
 		})
 	}
 
+	function _create(req, res){
+		req.user.getWebproperties({
+			where:{
+				'webproperties.id': req.params.propid,
+				'campaigns.id': req.params.cid
+			},
+			include: [Campaign]
+		}).then(function(prop){
+			if(!prop) return res.send(404);
+			return Experience.create({
+				name: req.body.name,
+				code: req.body.code,
+				campaignId: req.params.cid
+			});
+		}, function(err){
+			//db err
+			return res.send(500, err);
+		}).then(function(exp){
+			//success
+			return res.send(201, exp);
+		}, function(err){
+			//validate failed
+			return res.send(400, err);
+		})
+	}
+
+	function _edit(req, res){
+		var expr;
+		Experience.findExperience({propid: req.params.propid, cid: req.params.cid, eid:req.params.eid, uid: req.user.get('id')}).then(function(exp){
+			if(!exp) return res.send(404);
+			if(req.body.name !== void 0) exp.name = req.body.name;
+			if(req.body.code !== void 0) exp.code = req.body.code;
+			expr = exp;
+			return expr.save();
+		}, function(err){
+			//db err
+			return res.send(500, err);
+		}).then(function(){
+			//saved
+			return res.send(200, expr)
+		}, function(err){
+			//validation err
+			return res.send(400, err)
+		})
+	}
+
+	function _del(req, res){
+		res.send(200);
+		Experience.findExperience({propid: req.params.propid, cid: req.params.cid, eid:req.params.eid, uid: req.user.get('id')}).then(function(exp){
+			if(!exp) return res.send(404);
+			return exp.destroy();
+		}, function(err){
+			//db err
+			return res.send(500, err)
+		}).then(function(){
+			//deleted
+			return res.send(200);
+		})
+	}
+
 	return {
 		list: _list,
-		get: _get
+		get: _get,
+		create: _create,
+		edit: _edit,
+		del: _del
 	}
 }
