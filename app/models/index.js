@@ -1,6 +1,4 @@
 var Sequelize = require('sequelize');
-
-console.log(process.env.NODE_ENV);
 var sequelize = new Sequelize(
 		'ezab',
 		'root',

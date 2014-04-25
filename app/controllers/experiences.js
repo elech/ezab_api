@@ -70,7 +70,7 @@ module.exports = function(app){
 			return res.send(500, err);
 		}).then(function(savedExp){
 			//saved
-			return res.send(200, savedExp);
+			return res.send(200, savedExp.toJSON());
 		}, function(err){
 			//validation err
 			return res.send(400, err)

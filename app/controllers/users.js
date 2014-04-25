@@ -18,7 +18,6 @@ module.exports = function(app){
 				return res.send(200, users);
 			})
 			.error(function(err){
-				console.log(err);
 				return res.send(500);
 			})
 	}
