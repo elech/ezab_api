@@ -8,6 +8,7 @@ module.exports = function(app){
 	var User = app.get('models').User;
 	
 	function auth(req, res, next){
+		if(!req.get('Authorization')) return res.send(401);
 		var parts = req.get('Authorization').split(' ');
 		if(parts.length !== 2) return res.send(401); 
 		jwt.verify(parts[1], 'secret', function(err, decoded) {
