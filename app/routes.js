@@ -8,7 +8,9 @@ module.exports = function(app){
 	var User = app.get('models').User;
 	
 	function auth(req, res, next){
-		jwt.verify(req.get('Bearer'), 'secret', function(err, decoded) {
+		var parts = req.get('Authorization').split(' ');
+		if(parts.length !== 2) return res.send(401); 
+		jwt.verify(parts[1], 'secret', function(err, decoded) {
   		if(err) return res.send(401);
   		User.find(decoded.id).then(function(user){
   			if(!user) return res.send(500); //why would this happen
@@ -53,7 +55,7 @@ module.exports = function(app){
 	app.del('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.del);
 
 	app.get('/', function(req, res){
-		res.send(200);
+			return res.sendfile(__dirname + '/index.html');
 	});
 
 }

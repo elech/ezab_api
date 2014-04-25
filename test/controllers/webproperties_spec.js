@@ -35,7 +35,7 @@ describe('Web Properties route', function(){
 		it('should get an array of properties', function(done){
 			request(app)
 				.get('/webproperties')
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
@@ -48,7 +48,7 @@ describe('Web Properties route', function(){
 		it('should get a single property', function(done){
 			request(app)
 				.get('/webproperties/' + wuser.webproperties[0].get('id'))
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
@@ -62,7 +62,7 @@ describe('Web Properties route', function(){
 		it('should send a 201', function(done){
 			request(app)
 				.post('/webproperties')
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.send({name: 'MyNewProp', url: 'http://www.valid.com'})
 				.expect(201)
 				.end(function(err, res){
@@ -89,7 +89,7 @@ describe('Web Properties route', function(){
 			var newName = "newPropNameHERE";
 			request(app)
 				.put('/webproperties/' + prop2edit.id)
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.send({name: newName})
 				.expect(200)
 				.end(function(err, res){
@@ -116,7 +116,7 @@ describe('Web Properties route', function(){
 		it('should delete a property', function(done){
 			request(app)
 				.del('/webproperties/' + prop2del.id)
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);

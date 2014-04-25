@@ -4,6 +4,8 @@ var express = require('express'),
 
 
 app.use(bodyParser());
+app.use('/public', express.static(__dirname + '/public'));
+
 
 app.set('models', require('./models'));
 require('./routes.js')(app);

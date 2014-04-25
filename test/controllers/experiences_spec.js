@@ -43,7 +43,7 @@ describe('Experiences route', function(){
 		it('should get an array of experiences', function(done){
 			request(app)
 				.get('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences')
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer '+ token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
@@ -56,7 +56,7 @@ describe('Experiences route', function(){
 		it('should get a single of experiences', function(done){
 			request(app)
 				.get('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign.id + '/experiences/' + campaign.experiences[0].id)
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
@@ -75,7 +75,7 @@ describe('Experiences route', function(){
 
 			request(app)
 				.post('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences')
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.send(candidateExp)
 				.expect(201)
 				.end(function(err, res){
@@ -103,7 +103,7 @@ describe('Experiences route', function(){
 			var newName = "datnewNameHereOMG";
 			request(app)
 				.put('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences/' + exp2edit.id)
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.send({name: newName})
 				.expect(200)
 				.end(function(err, res){
@@ -130,7 +130,7 @@ describe('Experiences route', function(){
 		it('should delete a experience', function(done){
 			request(app)
 				.del('/webproperties/' + webprop.id + '/campaigns/' + campaign.id + '/experiences/' + exp2delete.id)
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);

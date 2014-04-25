@@ -4,7 +4,6 @@ module.exports = function(app){
 
 	function _create(req, res){
 		User.find({where: {email: req.body.email}}).then(function(user){
-			
 			if(!user) return res.send(401);
 			
 			user.comparePassword(req.body.password).then(function(match){

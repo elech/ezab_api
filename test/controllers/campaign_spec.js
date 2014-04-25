@@ -46,7 +46,7 @@ describe('Campaigns route', function(){
 		it('should return a 200 array @ /campaigns', function(done){
 			request(app)
 				.get('/webproperties/' + webprop.get('id') + "/campaigns")
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
@@ -60,7 +60,7 @@ describe('Campaigns route', function(){
 		it('should get a single campaign', function(done){
 			request(app)
 				.get('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign.get('id'))
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);
@@ -84,7 +84,7 @@ describe('Campaigns route', function(){
 			var reqString = '/webproperties/' + webprop.get('id') + '/campaigns'
 			request(app)
 				.post(reqString)
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.send(candidateCampaign)
 				.expect(201)
 				.end(function(err, res){
@@ -113,7 +113,7 @@ describe('Campaigns route', function(){
 			var newCampaignName = "newNameHere";
 			request(app)
 				.put('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign2Edit.get('id'))
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.send({name: newCampaignName})
 				.expect(200)
 				.end(function(err, res){
@@ -141,7 +141,7 @@ describe('Campaigns route', function(){
 		it('should delete a campaign', function(done){
 			request(app)
 				.del('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign2delete.get('id'))
-				.set('Bearer', token)
+				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);

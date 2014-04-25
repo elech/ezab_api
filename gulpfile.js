@@ -6,7 +6,8 @@ var batch = require('gulp-batch');
 var when = require('when');
 
 var appFiles = [
-  'app/**/*.js',
+  'app/controllers/*.js',
+  'app/models/*.js',
   'app/*.js'
 ];
 
@@ -34,7 +35,7 @@ gulp.task('test', ['seed'], function(){
   return gulp.src(appFiles.concat(testFiles))
     .pipe(mocha({reporter: 'spec'}))
     .on('error', function(err){
-      console.log(err.toString());
+      console.log(err);
       this.emit('end');
     })
 })
