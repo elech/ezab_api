@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes){
 		tableName: 'experiences',
 		classMethods: {
 			findExperience: function(args){
-				var QUERY = 'SELECT e.name, e.code, e.createdAt, e.updatedAt FROM users u ' +
+				var QUERY = 'SELECT e.id, e.name, e.code, e.createdAt, e.updatedAt FROM users u ' +
 					'JOIN webproperties as prop ON u.id = prop.userId ' +
 					'JOIN campaigns as c ON prop.id = c.webpropertyId ' +
 					'JOIN experiences as e on c.id = e.campaignId ' +

@@ -60,19 +60,17 @@ module.exports = function(app){
 	}
 
 	function _edit(req, res){
-		var expr;
 		Experience.findExperience({propid: req.params.propid, cid: req.params.cid, eid:req.params.eid, uid: req.user.get('id')}).then(function(exp){
 			if(!exp) return res.send(404);
 			if(req.body.name !== void 0) exp.name = req.body.name;
 			if(req.body.code !== void 0) exp.code = req.body.code;
-			expr = exp;
-			return expr.save();
+			return exp.save();
 		}, function(err){
 			//db err
 			return res.send(500, err);
-		}).then(function(){
+		}).then(function(savedExp){
 			//saved
-			return res.send(200, expr)
+			return res.send(200, savedExp);
 		}, function(err){
 			//validation err
 			return res.send(400, err)
