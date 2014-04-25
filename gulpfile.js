@@ -43,3 +43,7 @@ gulp.task('test', ['seed'], function(){
 gulp.task('default', function(){
   gulp.watch(appFiles.concat(testFiles), ['test']);
 });
+
+gulp.task('api', function(){
+  var app = require('./app/app.js');
+})
