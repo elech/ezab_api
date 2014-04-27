@@ -4,6 +4,7 @@ module.exports = function(app){
 	var webprops = require('./controllers/webproperties.js')(app);
 	var campaigns = require('./controllers/campaigns.js')(app);
 	var experiences = require('./controllers/experiences.js')(app);
+	var beacons = require('./controllers/beacons.js')(app);
 	var jwt = require('jsonwebtoken');
 	var User = app.get('models').User;
 	
@@ -54,6 +55,9 @@ module.exports = function(app){
 	app.post('/webproperties/:propid/campaigns/:cid/experiences', auth, experiences.create);
 	app.put('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.edit);
 	app.del('/webproperties/:propid/campaigns/:cid/experiences/:eid', auth, experiences.del);
+
+	//beacon
+	app.get('/beacon', beacons.get);
 
 	app.get('/', function(req, res){
 			return res.sendfile(__dirname + '/index.html');

@@ -11,7 +11,8 @@ var models = [
 	'User',
 	'WebProperty',
 	'Campaign',
-	'Experience'
+	'Experience',
+	'Beacon'
 ];
 
 models.forEach(function(model){
