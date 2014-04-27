@@ -41,6 +41,7 @@ module.exports = function(app){
 	app.post('/webproperties', auth, webprops.create);
 	app.put('/webproperties/:propid', auth, webprops.edit);
 	app.del('/webproperties/:propid', auth, webprops.del);
+	app.get('/webproperties/:propid/publish', webprops.publish);
 	
 	//campaigns
 	app.get('/webproperties/:propid/campaigns', auth, campaigns.list);
@@ -60,7 +61,11 @@ module.exports = function(app){
 	app.get('/beacon', beacons.get);
 
 	app.get('/', function(req, res){
-			return res.sendfile(__dirname + '/index.html');
+			return res.send(200);
 	});
+
+	app.get('/admin', function(req, res){
+		return res.sendfile(__dirname + '/index.html');
+	})
 
 }
