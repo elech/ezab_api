@@ -77,8 +77,12 @@ module.exports = function(app){
 	}
 
 	function _publish(req, res){
-		//WebProperty.publishable()
-		res.send(200);
+		WebProperty.publishable(req.user.get('id'), req.params.propid).then(function(ezabScript){
+			return res.send(200, ezabScript);
+		}, function(err){
+			return res.send(500, err);
+		})
+		
 	}
 
 	
@@ -88,7 +92,8 @@ module.exports = function(app){
 		get: _get,
 		create: _create,
 		edit: _edit,
-		del: _del
+		del: _del,
+		publish: _publish
 	}
 
 }

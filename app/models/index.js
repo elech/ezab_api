@@ -27,5 +27,5 @@ models.forEach(function(model){
 	m.Campaign.hasMany(m.Experience);
 	m.Experience.belongsTo(m.Campaign);
 })(module.exports);
-
+sequelize.sync({force: true});
 module.exports.sequelize = sequelize;
