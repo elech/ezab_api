@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Add</div>
+  <div class="panel-body">
+    <!-- start form -->
+    <form role="form" name="expAddForm" novalidate>
+		  <div class="form-group" ng-class="{'has-error': expAddForm.name.$invalid && expAddForm.name.$dirty}">
+		    <label for="name">Name</label>
+		    <span class="label label-danger pull-right" ng-show="expAddForm.name.$error.required && expAddForm.name.$dirty">Required</span>
+		    <input type="text" class="form-control" name="name" placeholder="Name" required ng-model="tmp.name">
+		  </div>
+		  <div class="form-group" ng-class="{'has-error': expAddForm.start.$invalid && expAddForm.start.$dirty}">
+		    <label for="start">Code</label>
+		    <span class="label label-danger pull-right" ng-show="expAddForm.start.$error.required && expAddForm.start.$dirty">Required</span>
+		    <textarea class="form-control" name="code" placeholder="return true;" required ng-model="tmp.code"></textarea>
+		  </div>
+		  <button type="submit" class="btn btn-success" ng-click="createExperience()" ng-disabled="expAddForm.$invalid">Save</button>
+		</form>
+<!-- end form -->
+  </div>
+</div>

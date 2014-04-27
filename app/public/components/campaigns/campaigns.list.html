@@ -1,0 +1,18 @@
+<div class="panel panel-info">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Campaigns</div>
+  <ul class="list-group"
+  		ng-controller="campaignsListCtrl">
+    <li class="list-group-item"
+    		ng-repeat="camp in CampaignService.campaigns">
+    		<a ng-click="CampaignService.selectCampaign($index)">
+    			{{camp.name}}
+    		</a>
+    		<span class="badge">
+    			<span class="glyphicon glyphicon-wrench"
+    						ng-click="editCampaign($index)"
+    			></span>
+    		</span>
+    </li>
+  </ul>
+</div>
