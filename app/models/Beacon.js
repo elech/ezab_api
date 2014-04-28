@@ -7,8 +7,7 @@ module.exports = function(sequelize, DataTypes){
 		},
 		experienceId: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
-			validate: {min: 1}
+			allowNull: false
 		},
 		event: {
 			type: DataTypes.STRING,

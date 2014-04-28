@@ -51,7 +51,7 @@ EZAB.joinRandomExperience = function(campaign){
 	}else{/*test*/
 		EZAB.cData[campaign.id] = campaign.experiences[randomExperience].id
 	}
-  EZAB.docCookies.setItem(EZAB.COOKIE_NAME, EZAB.cData);
+  EZAB.docCookies.setItem(EZAB.COOKIE_NAME, JSON.stringify(EZAB.cData));
 };
 
 EZAB.executeExperiences = function(){
@@ -79,6 +79,7 @@ EZAB.init = function(){
 	EZAB.cData = EZAB.getCookieData();
   EZAB.checkForCampaignStart();
   EZAB.checkForCampaignSuccess();
+  EZAB.executeExperiences();
 };
 
 

@@ -1,6 +1,12 @@
 <div class="panel panel-default" ng-controller="webpropertiesEditCtrl">
   <!-- Default panel contents -->
-  <div class="panel-heading">Edit Web Property</div>
+  <div class="panel-heading">
+  	<span>Edit Web Property</span>
+  	<button class="pull-right btn btn-success btn-xs"
+  		ng-click="publishWebproperty()">
+  			Publish
+  		</button>
+  </div>
   <div class="panel-body">
     <!-- start form -->
     <form role="form" name="propEditForm" novalidate>

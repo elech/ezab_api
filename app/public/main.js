@@ -36428,6 +36428,9 @@ var EZAB_APP = angular.module('EZAB_APP', ['ui.router', 'angular-flash.service',
 
 		flashProvider.errorClassnames.push('alert-danger');
 }])
+EZAB_APP.controller('campaignListCtrl', ['$scope', '$state', 'CampaignService', function($scope, $state, CampaignService){
+	$scope.CampaignService = CampaignService;
+}]);
 'use-strict';
 EZAB_APP.service('CampaignService', ['$rootScope', '$http', 'WebPropertiesService', '$state', '$stateParams', '$q', function($rootScope, $http, WebPropertiesService, $state, $stateParams, $q){
 	var that = this;
@@ -36551,9 +36554,6 @@ EZAB_APP.controller('campaignsListCtrl', ['$scope', 'CampaignService', '$state',
 		$scope.CampaignService.currentCampaign = $scope.CampaignService.campaigns[$index];
 		$state.go('campaigns.edit', {propid: $scope.WebPropertiesService.currentWebproperty.id, cid: $scope.CampaignService.currentCampaign.id})
 	}
-}]);
-EZAB_APP.controller('campaignListCtrl', ['$scope', '$state', 'CampaignService', function($scope, $state, CampaignService){
-	$scope.CampaignService = CampaignService;
 }]);
 EZAB_APP.controller('experiencesControlCtrl', ['$scope', '$state', '$stateParams', 'ExperienceService', function($scope, $state, $stateParams, ExperienceService){
 	$scope.modalShown = ExperienceService.showModalControl;
@@ -36794,9 +36794,10 @@ EZAB_APP.controller('webpropertiesAddCtrl', ['$scope', 'WebPropertiesService', '
 		})
 	}
 }]);
-EZAB_APP.controller('webpropertiesEditCtrl', ['$scope', 'WebPropertiesService', '$state', function($scope, WebPropertiesService, $state){
+EZAB_APP.controller('webpropertiesEditCtrl', ['$scope', 'WebPropertiesService', '$state', '$stateParams', function($scope, WebPropertiesService, $state, $stateParams){
 	$scope.WebPropertiesService = WebPropertiesService;
 
+	$scope.propid = $stateParams.propid;
 	$scope.tmpWebproperty = {
 		name: angular.copy($scope.WebPropertiesService.currentWebproperty.name),
 		url: angular.copy($scope.WebPropertiesService.currentWebproperty.url),
@@ -36810,6 +36811,18 @@ EZAB_APP.controller('webpropertiesEditCtrl', ['$scope', 'WebPropertiesService', 
 	$scope.delProp = function(){
 		$scope.WebPropertiesService.deleteWebproperty($scope.tmpWebproperty.id);
 	}
+
+	$scope.publishWebproperty = function(){
+		WebPropertiesService.publishWebproperty($stateParams.propid).then(function(res){			
+			console.log(res);
+			var hiddenElement = document.createElement('a');
+    	hiddenElement.href = 'data:text/javascript,' + encodeURI(res.data);
+    	hiddenElement.target = '_blank';
+    	hiddenElement.download = 'ezab.js';
+    	hiddenElement.click();
+		})
+	}
+
 }]);
 EZAB_APP.controller('webpropertiesHeaderListCtrl', ['$scope', 'WebPropertiesService', '$stateParams', function($scope, WebPropertiesService, $stateParams){
 	$scope.WebPropertiesService = WebPropertiesService;
@@ -36890,5 +36903,9 @@ EZAB_APP.service('WebPropertiesService', ['$rootScope', '$http', '$state', '$sta
 
 	this.selectWebproperty = function($index){
 		$state.go('campaigns', {propid: that.webproperties[$index].id})
+	}
+
+	this.publishWebproperty = function(propid){
+		return $http.get('/webproperties/' + propid + '/publish');
 	}
 }]);
