@@ -17,7 +17,6 @@ module.exports = function(sequelize, DataTypes){
 		tableName: 'beacons',
 		validate:{
 			eventStartOrSuccess: function(){
-				console.log(this.event);
 				if(this.event !== 'start' && this.event !== 'success'){
 					throw new Error('Must be either start or success');
 				}

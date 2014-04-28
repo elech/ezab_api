@@ -15,6 +15,6 @@ describe('Beacon route', function(){
 	})
 
 	it('should place an entry into the database', function(){
-
+		
 	})
 });

@@ -7,6 +7,7 @@ var Campaign = models.Campaign;
 var WebProperty = models.WebProperty;
 var seed = require('../../config/seed.js');
 var when = require('when');
+var Beacon = models.Beacon;
 
 describe('Campaigns route', function(){
 	var cuser, token, campaign, user, webprop
@@ -148,6 +149,39 @@ describe('Campaigns route', function(){
 					expect(res.body).to.have.property('id');
 					expect(parseInt(res.body.id)).to.equal(campaign2delete.id);
 					done();
+				})
+		})
+	})
+
+	describe('Stats', function(){
+		before(function(done){
+			Beacon.create({
+				campaignId: 3,
+				experienceId: 0,
+				event: "start"
+			}).then(function(){
+				return Beacon.create({
+					campaignId: 3,
+					experienceId: 0,
+					event: "success"
+				})
+			}).then(function(){
+				return Beacon.create({
+					campaignId: 3,
+					experienceId: 2,
+					event: "start"
+				})
+			}).then(function(){
+				done();
+			})
+		})
+		it('should give some stats', function(done){
+			request(app)
+				.get('/campaigns/3/stats')
+				.expect(200)
+				.end(function(err, res){
+					if(err) return done(err);
+					return done();
 				})
 		})
 	})

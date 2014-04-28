@@ -2,6 +2,7 @@ module.exports = function(app){
 	var User = app.get('models').User;
 	var Campaign = app.get('models').Campaign;
 	var WebProperty = app.get('models').WebProperty;
+	var sequelize = app.get('models').sequelize;
 
 	function _list(req, res){
 		req.user.getWebproperties({where: {'webproperties.id': req.params.propid}, include: [Campaign]}).then(function(prop){
@@ -90,12 +91,25 @@ module.exports = function(app){
 		})
 	}
 
+	function _stats(req, res){
+		var q = "SELECT experienceId, sum(case when event = 'start' then 1 else 0 end) as `start`, sum(case when event = 'success' then 1 else 0 end) as `success` FROM beacons WHERE campaignId = :cid GROUP BY experienceId";
+
+		sequelize.query(q, null, {raw: true}, {
+			cid: req.params.cid
+		}).then(function(data){
+			return res.send(200, data);
+		},function(err){
+			return res.send(500, err);
+		})
+	}
+
 
 	return {
 		list: _list,
 		get: _get,
 		create: _create,
 		edit: _edit,
-		del: _del
+		del: _del,
+		stats: _stats
 	}
 }

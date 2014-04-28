@@ -49,6 +49,8 @@ module.exports = function(app){
 	app.post('/webproperties/:propid/campaigns', auth, campaigns.create);
 	app.put('/webproperties/:propid/campaigns/:cid', auth, campaigns.edit);
 	app.del('/webproperties/:propid/campaigns/:cid', auth, campaigns.del)
+	app.get('/campaigns/:cid/stats', campaigns.stats);
+
 
 	//experiences
 	app.get('/webproperties/:propid/campaigns/:cid/experiences', auth, experiences.list);

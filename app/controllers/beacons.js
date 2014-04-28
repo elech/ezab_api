@@ -1,7 +1,6 @@
 module.exports = function(app){
 	var Beacon = app.get('models').Beacon;
 	function _get(req, res){
-		console.log(req.query);
 		Beacon.create({
 			campaignId: req.query.cid,
 			experienceId: req.query.eid,
