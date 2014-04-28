@@ -1,0 +1,52 @@
+
+<style>
+
+
+/*#graph text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}*/
+.indent {
+    padding-left: 5px;
+}
+rect {
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+rect:hover {
+    fill: orange;
+}
+.axis path, .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+    color:#000;
+}
+
+.x .axis > .tick text{
+	fill:black;
+}
+/*.legend {
+	padding: 2px;
+	border: 2px solid black;
+}*/
+
+
+.expStart{
+	fill: steelblue;
+}
+.expSuccess{
+	fill: green;
+}
+
+</style>
+<div>
+	<graph></graph>
+</div>

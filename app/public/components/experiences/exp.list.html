@@ -12,7 +12,7 @@
     <ul class="list-group">
       <li class="list-group-item" ng-click="editExperience($index)"
       		ng-repeat="exp in ExperienceService.experiences">
-          {{exp.name}}
+          <span>{{exp.id}}&nbsp;</span>{{exp.name}}
       		<span class="badge">
       			<span class="glyphicon glyphicon-wrench" 
       			></span>

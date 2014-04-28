@@ -1,7 +1,7 @@
 var EZAB = EZAB || {};
 EZAB.campaigns = [];
 EZAB.cData = {};
-EZAB.BEACON_URL = 'http://54.203.68.32/beacon';
+EZAB.BEACON_URL = 'http://54.203.68.32:8000/beacon';
 EZAB.COOKIE_NAME = "EZAB";
 
 
