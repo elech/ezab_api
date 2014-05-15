@@ -3,7 +3,7 @@ module.exports = function(app){
 	var Campaign = app.get('models').Campaign;
 	var Experience = app.get('models').Experience;
 	var Sequelize = app.get('models').sequelize;
-	
+
 
 	function _list(req, res){
 		req.user.getWebproperties({
@@ -16,7 +16,7 @@ module.exports = function(app){
 				include: [Experience]
 			}]
 		}).then(function(webprop){
-			if(!webprop) return res.send(404);
+			if(!webprop || !webprop[0].campaigns) return res.send(404);
 			res.send(200, webprop[0].campaigns[0].experiences);
 		}, function(err){
 			res.send(400, err);
@@ -48,7 +48,7 @@ module.exports = function(app){
 				campaignId: req.params.cid
 			});
 		}, function(err){
-			//db err
+			//db 
 			return res.send(500, err);
 		}).then(function(exp){
 			//success
