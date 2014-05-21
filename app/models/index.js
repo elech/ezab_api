@@ -3,7 +3,7 @@ var fs = require('fs');
 var sequelize = new Sequelize(
 		'ezab',
 		'root',
-		fs.readFileSync('../password.txt', 'utf-8'), {
+		fs.readFileSync('../password.txt', 'utf-8').replace(/\n/, "");, {
 			logging: (process.env.NODE_ENV == 'development' ? true : false )
 		}
 	);
