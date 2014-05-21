@@ -1,8 +1,9 @@
 var Sequelize = require('sequelize');
+var fs = require('fs');
 var sequelize = new Sequelize(
 		'ezab',
 		'root',
-		'toor', {
+		fs.readFileSync('../password.txt', 'utf-8'), {
 			logging: (process.env.NODE_ENV == 'development' ? true : false )
 		}
 	);
