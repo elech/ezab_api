@@ -61,17 +61,4 @@ module.exports = function(app){
 
 	//beacon
 	app.get('/beacon', beacons.get);
-
-	app.get('/', function(req, res){
-			return res.sendfile(__dirname + "/views/home.html");
-	});
-
-	app.get('/thankyou', function(req, res){
-		return res.sendfile(__dirname + "/views/thankyou.html")
-	})
-
-	app.get('/admin', function(req, res){
-		return res.sendfile(__dirname + '/index.html');
-	})
-
 }
