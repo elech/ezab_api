@@ -1,7 +1,8 @@
 var express = require('express')
-	,	app = express()
 	,	bodyParser = require('body-parser');
+require('express-namespace')
 
+app = express();
 app.set('port', process.env.PORT || 8000);
 
 app.use(bodyParser());
