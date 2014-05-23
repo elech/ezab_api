@@ -4,6 +4,7 @@ var mocha = require('gulp-mocha');
 var seed = require('./config/seed.js');
 var batch = require('gulp-batch');
 var when = require('when');
+var demo = require('./demo/demo.js')
 
 var appFiles = [
   'app/controllers/*.js',
@@ -44,3 +45,15 @@ gulp.task('default', function(){
 gulp.task('api', function(){
   var app = require('./app/app.js');
 });
+
+gulp.task('demo', function(){
+  var promise = when.promise(function(resolve, reject, notify){
+    demo.createDemo().then(function(){
+      resolve();
+    }, function(data){
+      console.log(data);
+      reject(data);
+    })
+  })
+  return promise;
+})
