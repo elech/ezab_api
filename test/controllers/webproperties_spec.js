@@ -8,7 +8,7 @@ var User = models.User,
 	WebProp = models.WebProperty;
 
 describe('Web Properties route', function(){
-	var wuser, token;
+	var wuser, token, apiV1Endpoint = "/api/v1";
 
 	before(function(done){
 		User.find({where:{email: 'quin@gmail.com'}, include: [WebProp]}).then(function(user){
@@ -20,7 +20,7 @@ describe('Web Properties route', function(){
 
 	before(function(done){
 		request(app)
-			.post('/tokens')
+			.post(apiV1Endpoint +'/tokens')
 			.send({email: 'quin@gmail.com', password: 'password'})
 			.expect(201)
 			.end(function(err, res){
@@ -34,7 +34,7 @@ describe('Web Properties route', function(){
 	describe('Getting', function(){
 		it('should get an array of properties', function(done){
 			request(app)
-				.get('/webproperties')
+				.get(apiV1Endpoint +'/webproperties')
 				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
@@ -47,7 +47,7 @@ describe('Web Properties route', function(){
 
 		it('should get a single property', function(done){
 			request(app)
-				.get('/webproperties/' + wuser.webproperties[0].get('id'))
+				.get(apiV1Endpoint +'/webproperties/' + wuser.webproperties[0].get('id'))
 				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
@@ -61,7 +61,7 @@ describe('Web Properties route', function(){
 	describe('Creating', function(){
 		it('should send a 201', function(done){
 			request(app)
-				.post('/webproperties')
+				.post(apiV1Endpoint +'/webproperties')
 				.set('Authorization', 'Bearer ' + token)
 				.send({name: 'MyNewProp', url: 'http://www.valid.com'})
 				.expect(201)
@@ -88,7 +88,7 @@ describe('Web Properties route', function(){
 		it('should edit a web property', function(done){
 			var newName = "newPropNameHERE";
 			request(app)
-				.put('/webproperties/' + prop2edit.id)
+				.put(apiV1Endpoint +'/webproperties/' + prop2edit.id)
 				.set('Authorization', 'Bearer ' + token)
 				.send({name: newName})
 				.expect(200)
@@ -115,7 +115,7 @@ describe('Web Properties route', function(){
 
 		it('should delete a property', function(done){
 			request(app)
-				.del('/webproperties/' + prop2del.id)
+				.del(apiV1Endpoint +'/webproperties/' + prop2del.id)
 				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
@@ -124,7 +124,4 @@ describe('Web Properties route', function(){
 				})
 		})
 	})
-
-	//describe('Publishing')
-
 });

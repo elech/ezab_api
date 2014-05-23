@@ -10,7 +10,7 @@ var when = require('when');
 var Beacon = models.Beacon;
 
 describe('Campaigns route', function(){
-	var cuser, token, campaign, user, webprop
+	var cuser, token, campaign, user, webprop, apiV1Endpoint = "/api/v1";
 	
 
 	before(function(done){
@@ -32,7 +32,7 @@ describe('Campaigns route', function(){
 	function getToken(user){
 		var promise = when.promise(function(resolve, reject, notify){
 			request(app)
-				.post('/tokens')
+				.post(apiV1Endpoint +'/tokens')
 				.send({email: 'exp@gmail.com', password: 'password'})
 				.expect(201)
 				.end(function(err, res){
@@ -46,7 +46,7 @@ describe('Campaigns route', function(){
 	describe('Getting', function(){	
 		it('should return a 200 array @ /campaigns', function(done){
 			request(app)
-				.get('/webproperties/' + webprop.get('id') + "/campaigns")
+				.get(apiV1Endpoint +'/webproperties/' + webprop.get('id') + "/campaigns")
 				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
@@ -60,7 +60,7 @@ describe('Campaigns route', function(){
 
 		it('should get a single campaign', function(done){
 			request(app)
-				.get('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign.get('id'))
+				.get(apiV1Endpoint +'/webproperties/' + webprop.get('id') + '/campaigns/' + campaign.get('id'))
 				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
@@ -82,7 +82,7 @@ describe('Campaigns route', function(){
 		})
 
 		it('should create a campaign on the property', function(done){
-			var reqString = '/webproperties/' + webprop.get('id') + '/campaigns'
+			var reqString = apiV1Endpoint +'/webproperties/' + webprop.get('id') + '/campaigns'
 			request(app)
 				.post(reqString)
 				.set('Authorization', 'Bearer ' + token)
@@ -113,7 +113,7 @@ describe('Campaigns route', function(){
 		it('should edit a campaign', function(done){
 			var newCampaignName = "newNameHere";
 			request(app)
-				.put('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign2Edit.get('id'))
+				.put(apiV1Endpoint +'/webproperties/' + webprop.get('id') + '/campaigns/' + campaign2Edit.get('id'))
 				.set('Authorization', 'Bearer ' + token)
 				.send({name: newCampaignName})
 				.expect(200)
@@ -141,7 +141,7 @@ describe('Campaigns route', function(){
 
 		it('should delete a campaign', function(done){
 			request(app)
-				.del('/webproperties/' + webprop.get('id') + '/campaigns/' + campaign2delete.get('id'))
+				.del(apiV1Endpoint +'/webproperties/' + webprop.get('id') + '/campaigns/' + campaign2delete.get('id'))
 				.set('Authorization', 'Bearer ' + token)
 				.expect(200)
 				.end(function(err, res){
@@ -177,7 +177,7 @@ describe('Campaigns route', function(){
 		})
 		it('should give some stats', function(done){
 			request(app)
-				.get('/campaigns/3/stats')
+				.get(apiV1Endpoint +'/campaigns/3/stats')
 				.expect(200)
 				.end(function(err, res){
 					if(err) return done(err);

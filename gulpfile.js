@@ -16,9 +16,6 @@ var testFiles = [
   'test/**/*.js'
 ]
 
-
-
-
 gulp.task('seed', function(){
   var promise = when.promise(function(resolve, reject, notify){
     seed.syncTheDB().then(function(){
@@ -46,4 +43,4 @@ gulp.task('default', function(){
 
 gulp.task('api', function(){
   var app = require('./app/app.js');
-})
+});

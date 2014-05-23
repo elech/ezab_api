@@ -6,13 +6,13 @@ var User = models.User;
 var seed = require('../../config/seed.js');
 
 describe('Tokens route', function(){
-
+	var apiV1Endpoint = "/api/v1";
 	describe('Creating tokens', function(){	
 		var userDeets = {name: 'Eric D', password: 'password', confirm: 'password', email: 'ed@gmail.com'}
 		it('should respond with a 201 & token', function(done){
 			User.salt(userDeets).then(function(user){
 				request(app)
-					.post('/tokens')
+					.post(apiV1Endpoint +'/tokens')
 					.send({email: userDeets.email, password: userDeets.password})
 					.expect(201)
 					.end(function(err, res){
