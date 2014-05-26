@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes){
 	function insertIntoEZABScript(campaignArrString){
 		var campArrRegex = /EZAB.campaigns = (\[\]);/;
 		var promise = when.promise(function(resolve, reject, notify){
-			fs.readFile(__dirname + '/../public/ezab.js', {encoding: 'utf8'}, function(err, data){
+			fs.readFile(__dirname + '/../../../ezab_script/ezab.js', {encoding: 'utf8'}, function(err, data){
 				if(err) return reject(err);
 				//console.log(data);
 				resolve(data.replace(campArrRegex, "EZAB.campaigns = " + campaignArrString + ";"));
