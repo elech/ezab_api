@@ -21,7 +21,6 @@ describe('WebProperty model', function(){
 			}).then(function(prop){
 				createdProp = prop;
 				filePath = '../cdn_ezab/ezab.' + crypto.createHash('sha1').update(createdProp.id.toString()).digest('hex') + '.js';
-				console.log(filePath);
 				return WebProperty.publishable(1, createdProp.id);
 			}, done).then(function(fileName){
 				done();
@@ -33,8 +32,6 @@ describe('WebProperty model', function(){
 				if(err) return done(err);
 				fs.exists(filePath, function(exists){
 					expect(exists).to.be.false;
-					console.log(filePath);
-					console.log(exists);
 					done();
 				})
 			})
@@ -42,7 +39,6 @@ describe('WebProperty model', function(){
 		
 		it('should move the file to the cdn', function(done){
 			fs.exists(filePath, function(exists){
-				console.log(filePath);
 				expect(exists).to.be.true;
 				done();
 			});

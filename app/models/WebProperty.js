@@ -1,6 +1,7 @@
 var when = require('when');
 var fs = require('fs');
 var crypto = require('crypto');
+var SCRIPT_URL = "//cdn.ezab.org/ezab.";
 
 
 
@@ -55,6 +56,25 @@ module.exports = function(sequelize, DataTypes){
 		})
 	}
 
+	//Fetches a single web property, appending a virtual property scriptURL
+	function _getSingleWebProp(userId, propId){
+		var promise = when.promise(function(resolve, reject, notify){
+			WebProperty.find({
+				where: {
+					userId: userId,
+					id: propId
+				}
+			}).then(function(webprop){
+				if(!webprop) return resolve(null);
+				var json_res = webprop.toJSON();
+				json_res.scriptUrl = SCRIPT_URL + crypto.createHash('sha1').update(webprop.id.toString()).digest('hex') + ".js";
+				resolve(json_res);
+			}, reject);
+		});
+
+		return promise;
+	}
+
 
 	return WebProperty = sequelize.define('WebProperty', {
 		name: {
@@ -72,7 +92,8 @@ module.exports = function(sequelize, DataTypes){
 	}, {
 		tableName: 'webproperties',
 		classMethods: {
-			publishable: _publishable
+			publishable: _publishable,
+			getSingleWebProp: _getSingleWebProp
 		}
 	});
 }

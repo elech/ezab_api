@@ -56,6 +56,18 @@ describe('Web Properties route', function(){
 					done();
 				})
 		})
+
+		it('should have a sha url', function(done){
+			request(app)
+				.get(apiV1Endpoint +'/webproperties/' + wuser.webproperties[0].get('id'))
+				.set('Authorization', 'Bearer ' + token)
+				.expect(200)
+				.end(function(err, res){
+					if(err) return done(err);
+					expect(res.body.scriptUrl).to.exist;
+					done();
+				})
+		})
 	})
 
 	describe('Creating', function(){

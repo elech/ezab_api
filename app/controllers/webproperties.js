@@ -10,10 +10,11 @@ module.exports = function(app){
 	}
 
 	function _get(req, res){
-		req.user.getWebproperties({where:{id: req.params.id}}).then(function(prop){
-			if(!prop || prop.length !== 1) return res.send(404);
-			return res.send(200, prop[0]);
+		WebProperty.getSingleWebProp(req.user.get('id'), req.params.id).then(function(prop){
+			if(!prop) return res.send(404);
+			return res.send(200, prop);
 		}, function(err){
+			console.log(err);
 			return res.send(500, err);
 		})
 	}
