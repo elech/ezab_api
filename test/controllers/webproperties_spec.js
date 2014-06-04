@@ -124,4 +124,29 @@ describe('Web Properties route', function(){
 				})
 		})
 	})
+
+	describe('publishing', function(){
+		var pubprop;
+		before(function(done){
+			WebProperty.create({
+				name: 'Newer Prop',
+				url: 'http://www.cnn.com',
+				userId: wuser.id
+			}).then(function(prop){
+				pubprop = prop;
+				done();
+			})
+		})
+
+		it('should publish the property to the cdn', function(done){
+			request(app)
+				.get(apiV1Endpoint + '/webproperties/' + pubprop.id + '/publish')
+				.set('Authorization', 'Bearer ' + token)
+				.expect(200)
+				.end(function(err, res){
+					if(err) return done(err);
+					done();
+				})
+		})
+	})
 });

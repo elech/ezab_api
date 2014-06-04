@@ -1,5 +1,8 @@
 var when = require('when');
 var fs = require('fs');
+var crypto = require('crypto');
+
+
 
 module.exports = function(sequelize, DataTypes){
 	
@@ -16,30 +19,25 @@ module.exports = function(sequelize, DataTypes){
 		return promise;
 	}
 
-	function insertIntoEZABScript(campaignArrString){
+	function insertIntoEZABScript(campaignArrString, propid){
 		var campArrRegex = /EZAB.campaigns = (\[\]);/;
 		var promise = when.promise(function(resolve, reject, notify){
 			fs.readFile(__dirname + '/../../../ezab_script/ezab.js', {encoding: 'utf8'}, function(err, data){
 				if(err) return reject(err);
-				//console.log(data);
-				resolve(data.replace(campArrRegex, "EZAB.campaigns = " + campaignArrString + ";"));
+				data.replace(campArrRegex, "EZAB.campaigns = " + campaignArrString + ";")
+				var shasum = crypto.createHash('sha1').update(propid.toString());
+				var fileName = 'ezab.' + shasum.digest('hex') + '.js';
+				fs.writeFile('../cdn_ezab/' + fileName, data, function(err){
+					if(err) return reject(err);
+					resolve(fileName);
+				})
 			})
 		});
 		return promise;
 	}
 
-	function _publishable(userId, propId){
-
-/*		var QUERY = 'SELECT c.name, c.start, c.success, c.id, e.id, e.code FROM users u ' +
-			'JOIN webproperties as prop ON u.id = prop.userId ' +
-			'LEFT JOIN campaigns as c ON prop.id = c.webpropertyId ' +
-			'LEFT JOIN experiences as e on c.id = e.campaignId ' +
-			'WHERE prop.id = :propid AND u.id = :uid GROUP BY prop.id, c.id, e.id';
-
-		return sequelize.query(QUERY, null, {raw: true},{
-			propid: propId,
-			uid: userId
-		})*/
+	function _publishable(userId, propId){	
+		var foundprop;
 		return WebProperty.find({
 			where: {
 				userId: userId,
@@ -50,9 +48,10 @@ module.exports = function(sequelize, DataTypes){
 				include: [sequelize.model('Experience')]
 			}]
 		}).then(function(prop){
+			foundprop = prop;
 			return wrapFunctions(prop)
 		}).then(function(campaignArrString){
-			return insertIntoEZABScript(campaignArrString);
+			return insertIntoEZABScript(campaignArrString, foundprop.id);
 		})
 	}
 

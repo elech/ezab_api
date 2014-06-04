@@ -80,6 +80,7 @@ module.exports = function(app){
 		WebProperty.publishable(req.user.get('id'), req.params.propid).then(function(ezabScript){
 			return res.send(200, ezabScript);
 		}, function(err){
+			console.log(err);
 			return res.send(500, err);
 		})
 		

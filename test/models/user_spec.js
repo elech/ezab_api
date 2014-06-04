@@ -43,7 +43,6 @@ describe('User model', function(){
 					expect(match).to.be.ok;
 					done();
 				}, done)
-				
 			}, done)
 		})
 	})
